@@ -9,8 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cdc.mitrais.springbootdemoone.model.Article;
 import com.cdc.mitrais.springbootdemoone.model.Person;
 import com.cdc.mitrais.springbootdemoone.service.IPersonService;
 
@@ -35,5 +38,17 @@ public class PersonController {
 		}
 		
 		return new ResponseEntity<List<Person>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping("person/{id}")
+	public ResponseEntity<Person> getPersonById(@PathVariable("id") Integer id) {
+		Person person = personService.getDataById(id);
+		return new ResponseEntity<Person>(person, HttpStatus.OK);
+	}
+	
+	@GetMapping("person-data")
+	public ResponseEntity<Person> getPersonByIdUsingQueryParam(@RequestParam("id") Integer id) {
+		Person person = personService.getDataById(id);
+		return new ResponseEntity<Person>(person, HttpStatus.OK);
 	}
 }

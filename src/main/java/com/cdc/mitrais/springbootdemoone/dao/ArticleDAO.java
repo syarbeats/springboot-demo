@@ -16,6 +16,7 @@ public class ArticleDAO implements IArticleDAO {
 	
 	@PersistenceContext	
 	private EntityManager entityManager;	
+	
 	@Override
 	public Article getArticleById(int articleId) {
 		return entityManager.find(Article.class, articleId);

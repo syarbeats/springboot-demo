@@ -21,8 +21,8 @@ public class PersonServices implements IPersonService{
 
 	@Override
 	public Person getDataById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return personDAO.getDataById(Id);
 	}
 
 	@Override

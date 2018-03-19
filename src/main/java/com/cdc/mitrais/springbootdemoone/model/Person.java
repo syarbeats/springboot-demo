@@ -16,7 +16,7 @@ import javax.persistence.Table;
 @Table(name = "person", catalog = "fasttech")
 public class Person implements java.io.Serializable {
 
-	private Long id;
+	private int id;
 	private String firstName;
 	private String lastName;
 
@@ -32,11 +32,11 @@ public class Person implements java.io.Serializable {
 	@GeneratedValue(strategy = IDENTITY)
 
 	@Column(name = "id", unique = true, nullable = false)
-	public Long getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import org.assertj.core.util.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -34,18 +36,31 @@ public class PersonDAO implements IPersonDAO{
 		return data;
 	}
 
+	public List<Person> getDataPerPage(int offset, int limit){
+		String query = "select p.id, p.first_name, p.last_name from person p";
+		
+		Query nativeQuery = entityManager.createNativeQuery(query);
+		nativeQuery.setFirstResult(offset);
+		nativeQuery.setMaxResults(limit);
+		
+		final List<Person[]> resultList = nativeQuery.getResultList();
+		List<Person> personList = Lists.newArrayList();
+		resultList.forEach(object->personList.add(object));
+		
+		return personList;
+	}
 	
-
 	@Override
 	public void addData(Person data) {
-		// TODO Auto-generated method stub
+		entityManager.persist(data);
 		
 	}
 
 	@Override
 	public void updateData(Person data) {
-		// TODO Auto-generated method stub
-		
+		Person person = getDataById(data.getId());
+		person.setFirstName(data.getFirstName());
+		person.setLastName(data.getLastName());
 	}
 
 
@@ -59,8 +74,8 @@ public class PersonDAO implements IPersonDAO{
 
 	@Override
 	public Person getDataById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+		Person person = entityManager.find(Person.class, Id);
+		return person;
 	}
 
 
@@ -71,4 +86,5 @@ public class PersonDAO implements IPersonDAO{
 		
 	}
 
+	
 }
