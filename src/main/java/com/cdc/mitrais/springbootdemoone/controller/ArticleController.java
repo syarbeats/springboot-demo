@@ -1,6 +1,8 @@
 package com.cdc.mitrais.springbootdemoone.controller;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,8 +27,11 @@ import com.cdc.mitrais.springbootdemoone.service.IArticleService;
 @RequestMapping("user")
 public class ArticleController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+	
 	@Autowired
 	private IArticleService articleService;
+	
 	@GetMapping("article/{id}")
 	public ResponseEntity<Article> getArticleById(@PathVariable("id") Integer id) {
 		Article article = articleService.getArticleById(id);
@@ -36,6 +41,11 @@ public class ArticleController {
 	@GetMapping("articles")
 	public ResponseEntity<List<Article>> getAllArticles() {
 		List<Article> list = articleService.getAllArticles();
+		
+		for(Article article : list) {
+			logger.debug("Article Data: Title-"+article.getTitle()+"Category-"+article.getTitle());
+		}
+		
 		return new ResponseEntity<List<Article>>(list, HttpStatus.OK);
 	}
 	

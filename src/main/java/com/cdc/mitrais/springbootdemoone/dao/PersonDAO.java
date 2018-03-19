@@ -5,9 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cdc.mitrais.springbootdemoone.controller.PersonController;
 import com.cdc.mitrais.springbootdemoone.model.Person;
 
 @Transactional
@@ -17,6 +20,8 @@ public class PersonDAO implements IPersonDAO{
 	@PersistenceContext	
 	private EntityManager entityManager;	
 	
+	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Person> getAllData() {
@@ -24,6 +29,7 @@ public class PersonDAO implements IPersonDAO{
 		List<Person> data = entityManager.createQuery(hql).getResultList();
 		for(Person person : data) {
 			System.out.println("Person Data:"+ person.getFirstName());
+			logger.debug("Person Data From PersonDAO:"+ person.getFirstName());
 		}
 		return data;
 	}
